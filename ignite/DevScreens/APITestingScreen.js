@@ -1,7 +1,6 @@
 import React from 'react'
-import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native'
+import { ScrollView, View, Text, Button, TouchableOpacity, Image } from 'react-native'
 import { Metrics, Images } from './DevTheme'
-import FullButton from '../../App/Components/FullButton'
 
 // For API
 import API from '../../App/Services/Api'
@@ -49,7 +48,7 @@ export default class APITestingScreen extends React.Component {
   renderButton (apiEndpoint) {
     const { label, endpoint, args = [''] } = apiEndpoint
     return (
-      <FullButton text={label || `${endpoint}(${args.join(', ')})`} onPress={this.tryEndpoint.bind(this, apiEndpoint)} styles={{marginTop: 10}} key={`${endpoint}-${args.join('-')}`} />
+      <Button text={label || `${endpoint}(${args.join(', ')})`} onPress={this.tryEndpoint.bind(this, apiEndpoint)} styles={{marginTop: 10}} key={`${endpoint}-${args.join('-')}`} />
     )
   }
 

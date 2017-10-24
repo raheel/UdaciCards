@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, Image, View } from 'react-native'
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
+import DeckListScreen from './DeckListScreen'
 
 import { Images } from '../Themes'
 
@@ -16,6 +17,7 @@ export default class LaunchScreen extends Component {
           <View style={styles.centered}>
             <Image source={Images.launch} style={styles.logo} />
           </View>
+        <DeckListScreen />
 
           <View style={styles.section} >
             <Image source={Images.ready} />
