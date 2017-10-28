@@ -2,11 +2,18 @@ import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet } from 'react-native'
 import Button from '../Components/Button'
 import { connect } from 'react-redux'
+import DeckApi from "../Services/DeckApi"
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
 
 class NewDeckScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   render () {
     return (
       <View style={{flex:1, justifyContent: "center", alignItems: "center", paddingBottom: 150}}>
@@ -19,9 +26,14 @@ class NewDeckScreen extends Component {
           style={styles.textInput}
           onChangeText={(text) => this.setState({answer: text})}
         />    
-        <Button title="Submit" backgroundColor="black" borderColor="black" textColor="white"/>    
+        <Button onPress={this.onSubmit} title="Submit" backgroundColor="black" borderColor="black" textColor="white"/>    
         </View>
     )
+  }
+
+  onSubmit(){
+    console.log('onSubmit', this.state);
+    DeckApi.saveDeckTitle(this.state.answer);
   }
 }
 

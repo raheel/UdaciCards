@@ -8,13 +8,10 @@ import createStore from '../Redux'
 const store = createStore()
 
 
-const Provider = ({story}) => {
-  console.log('------store: ', store);
-  console.log('------story: ', story);
- 
- return(    <ReduxProvider store={store}>
+const Provider = ({story}) => (
+ <ReduxProvider store={store}>
      {story} 
     </ReduxProvider>
  )
-}
+ 
 export default Provider

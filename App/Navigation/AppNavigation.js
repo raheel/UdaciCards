@@ -29,7 +29,7 @@ const Tabs = TabNavigator({
     navigationOptions: {
       tabBarLabel: 'Decks'    },
   },
-  NewDeck: {
+  NewDeckScreen: {
     screen: NewDeckScreen,
     navigationOptions: {
       tabBarLabel: 'New Deck'
@@ -40,16 +40,11 @@ const Tabs = TabNavigator({
     header: null
   },
   tabBarOptions: {
+    activeTintColor: '#ffffff',
+    inactiveTintColor: '#ffffff',
     style: {
       height: 56,
-      backgroundColor: 'white',
-      shadowColor: 'rgba(0, 0, 0, 0.24)',
-      shadowOffset: {
-        width: 0,
-        height: 3
-      },
-      shadowRadius: 6,
-      shadowOpacity: 1
+      backgroundColor: 'green',
     }
   }
 })

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, KeyboardAvoidingView } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { connect } from "react-redux";
 import Deck from "../Components/Deck";
 import Button from '../Components/Button'
@@ -14,7 +14,11 @@ class IndividualDeckScreen extends Component {
   render() {
     const deck = this.props.deck;
     if (deck == null) {
-      return <View />;
+      return <TouchableOpacity onPress={()=>{
+    console.log('onpress');
+    this.props.navigation.navigate('DeckListScreen');
+   // this.state.nav.push();
+  }}><Text>test</Text></TouchableOpacity>;
     }
 
     return <View style={{flex: 1}}> 

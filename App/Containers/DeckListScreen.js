@@ -1,38 +1,83 @@
 import React, { Component } from "react";
-import { FlatList, Text, View, KeyboardAvoidingView } from "react-native";
+import { FlatList, Text, View, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import Deck from "../Components/Deck.js";
 import { connect } from "react-redux";
+import DeckApi from "../Services/DeckApi";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
 class DeckListScreen extends Component {
-  render() {
-    const data = this.props.data;
-    console.log("data: ", data);
+state = {};
 
-    if (!data) {
-      return <Text>Nothing to see here</Text>;
-    }
-    const items = Object.keys(data).map(name => data[name]);
-    return <FlatList data={items} renderItem={this.renderItem} />;
+  constructor(props) {
+    super(props);
+
+   this.renderItem = this.renderItem.bind(this);
   }
 
-  renderItem({ item }) {
-    <View>
-      <View>
-        <Deck
+componentDidMount() {
+      DeckApi.getDecks().then(decks => {
+      let data = decks;
+      console.log("data---------abc: ", data);
+
+      const items = Object.keys(data).map(name => data[name]);
+
+      this.setState({items});
+
+
+    });
+}
+
+  render() {
+    console.log('this.state', this.state)
+    console.log('this.props', this.props.navigation)
+    let items = this.state.items;
+
+      if (!items) {
+        
+        return <Text>Nothing to see here</Text>;
+      }
+      console.log("data---------data____1234: ", items);
+
+
+      const data = Object.keys(items).map(name => items[name]);
+
+      console.log("data---------items1234: ", data);
+
+
+      return <FlatList style={{marginTop: 10}} data={data} renderItem={this.renderItem}
+      keyExtractor={(item, index) => index}
+       />;
+
+
+  }
+
+  renderItem(item) {     
+   item = item.item; 
+     console.log("renderItem---------item1234: ", item);
+return (
+      <TouchableOpacity onPress={this.onPress}>
+        <Deck 
           title={item.title}
-          numberOfCards={item.questions.length}
-          showBorder="false"
+          numberOfCards={item.questions ? item.questions.length : 0
+          }
+          showBorder={true}
         />
-      </View>
-      <View />
-    </View>;
+      </TouchableOpacity>
+)
+  }
+
+  onPress = ()=>{
+    console.log('onpress');
+    this.props.navigation.navigate('IndividualDeckScreen');
+   // this.state.nav.push();
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  console.log('---state', state.nav);
+  let nav = state.nav;
+  return {nav};
 };
 
 const mapDispatchToProps = dispatch => {
