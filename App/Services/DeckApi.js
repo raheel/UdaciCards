@@ -35,11 +35,17 @@ return [];
 
     static async getDeck(id){
         try {
-            let decks = getDecks();
+            let decks = DeckApi.getDecks().
+            then(decks =>{
+            console.log('----getDeck', id, decks);
             decks.filter(deck => deck.title===id);
             return decks.length > 0 ? decks[0] : {};
+            })
         } catch (error) {
+             console.log('in error', error);
+
         }
+
     }
 
     static async saveDeckTitle(title){
@@ -48,20 +54,47 @@ return [];
             let response = await AsyncStorage.getItem(KEY);
             console.log('response', response)
             let items =  response ? JSON.parse(response) : {};
+            if (items.hasOwnProperty(title)){
+                return false;
+            }
             items[title]={title};
             console.log('items', items)
             await AsyncStorage.setItem(KEY, JSON.stringify(items));
+            return true;
         } catch (error) {
         }
     }
 
     static async addCardToDeck(title, card){
+        console.log('addCard', title, card)
         try {
-            let deck = getDeck(title);
+                        let response = await AsyncStorage.getItem(KEY);
+
+            let decks = JSON.parse(response);
+            console.log('***********items', decks);
+            let deck = null;
+
+            Object.keys(decks).forEach((id, index) => {
+                if (id == title) {
+                    deck = decks[id];
+                }
+            });
+
+            console.log('***********1234deck1234asdfasfadfasf', deck);
+
+            if (!deck.hasOwnProperty('questions')){
+                deck.questions=[];
+            }
+
             deck.questions.push(card);
-            items[title] = deck;
-            await AsyncStorage.setItem(KEY, items);
+            decks[title] = deck;
+                        console.log('***********decks1234', decks);
+
+            await AsyncStorage.setItem(KEY, JSON.stringify(decks));
+
         } catch (error) {
+                        console.log('in error', error);
+
         }
     }
 }

@@ -56,7 +56,7 @@ componentDidMount() {
    item = item.item; 
      console.log("renderItem---------item1234: ", item);
 return (
-      <TouchableOpacity onPress={this.onPress}>
+      <TouchableOpacity onPress={() => this.onPress(item)}>
         <Deck 
           title={item.title}
           numberOfCards={item.questions ? item.questions.length : 0
@@ -67,10 +67,9 @@ return (
 )
   }
 
-  onPress = ()=>{
-    console.log('onpress');
-    this.props.navigation.navigate('IndividualDeckScreen');
-   // this.state.nav.push();
+  onPress = (item)=>{
+    console.log('onpress', item);
+    this.props.navigation.navigate('IndividualDeckScreen', {'deck': item});
   }
 }
 

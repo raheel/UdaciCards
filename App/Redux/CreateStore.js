@@ -4,6 +4,7 @@ import Config from '../Config/DebugConfig'
 import RehydrationServices from '../Services/RehydrationServices'
 import ReduxPersist from '../Config/ReduxPersist'
 import ScreenTracking from './ScreenTrackingMiddleware'
+import thunk from 'redux-thunk';
 
 // creates the store
 export default (rootReducer) => {
@@ -15,6 +16,8 @@ export default (rootReducer) => {
   /* ------------- Analytics Middleware ------------- */
   middleware.push(ScreenTracking)
 
+  /* ------------- Thunk Middleware ------------- */
+  middleware.push(thunk)
 
   /* ------------- Assemble Middleware ------------- */
 

@@ -45,7 +45,11 @@ const Tabs = TabNavigator({
     style: {
       height: 56,
       backgroundColor: 'green',
-    }
+    },
+                tabBarOnPress: (scene, jumpToIndex) => {
+                console.log('onPress:', scene.route);
+                jumpToIndex(scene.index);
+            },
   }
 })
 
