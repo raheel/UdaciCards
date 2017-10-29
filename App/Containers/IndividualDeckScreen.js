@@ -12,13 +12,16 @@ import styles from "./Styles/IndividualDeckScreenStyle";
 
 class IndividualDeckScreen extends Component {
   render() {
-    const deck = this.props.navigation.state.params.deck;
-    console.log('deck', deck);
-        console.log('this.props.navigation.state', this.props.navigation.state);
+    const title = this.props.navigation.state.params.title;
+    
+    
+    deck = this.props.decks.filter(deck => deck.title === title)[0];
+    
+        
 
     if (deck == null) {
       return <TouchableOpacity onPress={()=>{
-    console.log('onpress');
+    
     this.props.navigation.navigate('DeckListScreen', {'deck': deck});
    // this.state.nav.push();
   }}><Text>test</Text></TouchableOpacity>;
@@ -41,20 +44,24 @@ class IndividualDeckScreen extends Component {
   }
 
   addCard(deck){
-    console.log('--------deck', deck.title);
+    
    this.props.navigation.navigate('NewQuestionScreen', {'title': deck.title});
 
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  let decks = state.app.decks;
+    
+
+  return { decks };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+   loadDecks: () => dispatch(getDecks())
+  };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(
   IndividualDeckScreen
 );

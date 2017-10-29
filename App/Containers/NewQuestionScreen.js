@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, TextInput, View, StyleSheet } from 'react-native'
 import Button from '../Components/Button'
 import { connect } from 'react-redux'
-import DeckApi from "../Services/DeckApi";
+import {addCardToDeck} from "../Services/DeckApi";
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -36,7 +36,7 @@ class NewQuestionScreen extends Component {
   }
 
   submit(title, question, answer){
-    DeckApi.addCardToDeck(title, {question, answer});
+    this.props.addCardToDeck(title, {question, answer});
   }
 }
 
@@ -54,14 +54,16 @@ var styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = (state) => {
-  return {
-  }
-}
+const mapStateToProps = state => {
+  let decks = state.app.decks;
+    
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
+  return { decks };
+};
 
+const mapDispatchToProps = dispatch => {
+  return {
+   addCardToDeck: (title, question, answer) => dispatch(addCardToDeck(title, question, answer))
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(NewQuestionScreen)

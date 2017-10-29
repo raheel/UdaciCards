@@ -20,7 +20,6 @@ class ReduxNavigation extends React.Component{
     BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
   }
   onBackPress = () => {
-    console.log('----onbackpress 1234') 
     const { dispatch, nav } = this.props;
     if (this.isRootScreen(nav)) {
       return false;
@@ -30,7 +29,6 @@ class ReduxNavigation extends React.Component{
   };
 
 isRootScreen = (navigator) => {
-  console.log('----isRootScreen', navigator.index, navigator)
 	if (navigator.index == null) {
 		return true;
 	}

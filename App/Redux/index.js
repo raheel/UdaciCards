@@ -4,7 +4,6 @@ import configureStore from './CreateStore'
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
   nav: require('./NavigationRedux').reducer,
-  github: require('./GithubRedux').reducer,
   app: require('./AppRedux').reducer
 })
 

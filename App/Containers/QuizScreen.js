@@ -14,10 +14,10 @@ class QuizScreen extends Component {
   }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
   render() {
-        console.log('this.state ', this.state);
+        
 
     const { deck, questionNumber } = this.state;
-    console.log('--------questionNumber ', questionNumber);
+    
     if (deck == null) {
       //  return  <View />;
     }
