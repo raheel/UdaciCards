@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, TextInput, View, StyleSheet } from 'react-native'
+import {Alert,  Text, TextInput, View, StyleSheet } from 'react-native'
 import Button from '../Components/Button'
 import { connect } from 'react-redux'
 import {addCardToDeck} from "../Services/DeckApi";
@@ -35,8 +35,18 @@ class NewQuestionScreen extends Component {
     )
   }
 
+
   submit(title, question, answer){
     this.props.addCardToDeck(title, {question, answer});
+          Alert.alert("Successfully Added", "New question was successfully added", [
+        {
+          text: "OK",
+          onPress: () => {
+            this.setState({ title: "" });
+    this.props.navigation.navigate("IndividualDeckScreen", { title: title });
+          }
+        }
+      ]);
   }
 }
 

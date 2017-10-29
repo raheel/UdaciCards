@@ -5,7 +5,6 @@ const Button = ({onPress, title, backgroundColor, borderColor, textColor}) =>
   <TouchableHighlight
     style={[styles.container, {backgroundColor: backgroundColor, borderColor: borderColor ? borderColor : backgroundColor}]}
     onPress={() => onPress()}
-    underlayColor="#fff"
   >
     <Text style={[styles.title, {color: textColor}]}>{title}</Text>
   </TouchableHighlight>;

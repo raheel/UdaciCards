@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Alert, Text, TextInput, View, StyleSheet } from "react-native";
 import Button from "../Components/Button";
 import { connect } from "react-redux";
-import DeckApi from "../Services/DeckApi";
+import { saveDeckTitle } from "../Services/DeckApi";
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -37,8 +37,8 @@ class NewDeckScreen extends Component {
         </Text>
         <TextInput
           style={styles.textInput}
-          onChangeText={text => this.setState({ answer: text })}
-          value={this.state.answer}
+          onChangeText={text => this.setState({ title: text })}
+          value={this.state.title}
         />
         <Button
           onPress={this.onSubmit}
@@ -52,26 +52,27 @@ class NewDeckScreen extends Component {
   }
 
   onSubmit() {
-    console.log("onSubmit", this.state);
-    DeckApi.saveDeckTitle(this.state.answer).then(added => {
-      if (added) {
-        Alert.alert("Successfully Added", "New deck was successfully added", [
-          {
-            text: "OK",
-            onPress: () => {
-              this.setState({ answer: '' });
-              this.props.navigation.navigate("DeckListScreen");
-            }
+    let duplicate =
+      this.props.decks.filter(deck => deck.title === this.state.title).length > 0;
+    if (duplicate) {
+      Alert.alert("Duplicate Entry", "Deck with same name exists", [
+        {
+          text: "OK"
+        }
+      ]);
+    } else {
+      this.props.saveDeckTitle(this.state.title);
+
+      Alert.alert("Successfully Added", "New deck was successfully added", [
+        {
+          text: "OK",
+          onPress: () => {
+            this.setState({ title: "" });
+            this.props.navigation.navigate("DeckListScreen");
           }
-        ]);
-      } else {
-          Alert.alert("Duplicate Entry", "Deck with same name exists", [
-          {
-            text: "OK"
-          }
-        ]);
-      }
-    });
+        }
+      ]);
+    }
   }
 }
 
@@ -89,11 +90,15 @@ var styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {};
+  let decks = state.app.decks;
+
+  return { decks };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    saveDeckTitle: title => dispatch(saveDeckTitle(title))
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewDeckScreen);

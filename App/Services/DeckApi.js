@@ -10,10 +10,10 @@ export function getDecks() {
       .then(response => {
         let items = JSON.parse(response);
         let decks = Object.keys(items).map(item => items[item]);
-        dispatch(Creators.decks(decks));
+        return dispatch(Creators.decks(decks));
       })
       .catch(err => {
-        dispatch(Creators.decks([]));
+        return dispatch(Creators.decks([]));
       });
   };
 }
@@ -28,28 +28,26 @@ export function saveDeckTitle(title) {
         }
 
         decks[title] = { title };
-        console.log("decks", decks);
+
         AsyncStorage.setItem(KEY, JSON.stringify(decks));
 
-        dispatch(Creators.decks(decks));
+        let d = Object.keys(decks).map(title => decks[title]);
+
+        dispatch(Creators.decks(d));
+
       })
       .catch(err => {
         dispatch(Creators.decks([]));
+
       });
   };
 }
 
 export function addCardToDeck(title, card) {
-   console.log("***********addCardToDeck addCardToDeck1", title, card);
   return (dispatch, getState) => {
-    console.log("***********addCardToDeck getState");
-    AsyncStorage.getItem(KEY)
+   AsyncStorage.getItem(KEY)
       .then(response => {
-        console.log("***********addCardToDeck response", response);
         let decks = response ? JSON.parse(response) : {};
- 
-
-        console.log("***********addCardToDeck decks", decks);
 
         let deck = null;
         Object.keys(decks).forEach((id, index) => {
@@ -57,22 +55,21 @@ export function addCardToDeck(title, card) {
             deck = decks[id];
           }
         });
-        console.log("***********addCardToDeck deck", deck);
+
         if (!deck.hasOwnProperty("questions")) {
           deck.questions = [];
         }
         deck.questions.push(card);
         decks[title] = deck;
-        console.log("***********addCardToDeck decks", decks);
+
         AsyncStorage.setItem(KEY, JSON.stringify(decks));
 
         let d = Object.keys(decks).map(title => decks[title]);
-        console.log('addCardToDeck d,', d);
-        dispatch(Creators.decks(d));
+
+       return dispatch(Creators.decks(d));
       })
       .catch(err => {
-         console.log("***********addCardToDeck err", err);
-        dispatch(Creators.decks([]));
+         return dispatch(Creators.decks([]));
       });
   };
 }

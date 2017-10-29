@@ -37,8 +37,9 @@ class IndividualDeckScreen extends Component {
       </View>
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Button style={{width: 100}} onPress={()=>this.addCard(deck)} title="Add Card" backgroundColor="black" textColor="white"/>
-
-        <Button style={{width: 100}} onPress={this.startQuiz}  title="Start Quiz" backgroundColor="white" borderColor="black" textColor="black"/>
+        {deck.questions && deck.questions.length>0 ?
+        <Button style={{width: 100}} onPress={()=>this.startQuiz(deck)}  title="Start Quiz" backgroundColor="white" borderColor="black" textColor="black"/>
+        : null}
             </View>
     </View>;
   }
@@ -46,6 +47,12 @@ class IndividualDeckScreen extends Component {
   addCard(deck){
     
    this.props.navigation.navigate('NewQuestionScreen', {'title': deck.title});
+
+  }
+
+    startQuiz(deck){
+    
+   this.props.navigation.navigate('QuizScreen', {'title': deck.title,  'questionNumber':1});
 
   }
 }
