@@ -9,6 +9,7 @@ import {
 import Deck from "../Components/Deck.js";
 import { connect } from "react-redux";
 import {getDecks} from "../Services/DeckApi.js";
+import Button from '../Components/Button'
 
 
 class DeckListScreen extends Component {
@@ -30,9 +31,15 @@ class DeckListScreen extends Component {
     
     let decks = this.props.decks;
 
-    if (!decks) {
-      return <Text>Nothing to see here</Text>;
+console.log('decklistscreen1', decks);
+    if (!decks || decks.length==0) {
+   return (   <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: 200, paddingBottom: 20}}>
+        <Text style={{fontSize: 30, color: 'black', textAlign: 'center', paddingBottom: 20}}>No decks.{"\n"}Please add one.</Text>
+        <Button onPress={()=>this.addDeck()} title="Add Deck" backgroundColor="green" textColor="white"/>
+      </View>)
     }
+
+console.log('decklistscreen2', decks);
     
 
     const data = Object.keys(decks).map(name => decks[name]);
@@ -67,12 +74,18 @@ class DeckListScreen extends Component {
     
     this.props.navigation.navigate("IndividualDeckScreen", { title: item.title });
   };
+
+  addDeck(){
+    
+   this.props.navigation.navigate('NewDeckScreen');
+
+  }
 }
 
 const mapStateToProps = state => {
   let decks = state.app.decks;
     
-
+console.log('mapStateToProps', state);
   return { decks };
 };
 

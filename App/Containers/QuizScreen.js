@@ -38,29 +38,6 @@ class QuizScreen extends Component {
     const questionNumber = this.state.questionNumber;
     const deck = this.state.deck;
 
-    if (questionNumber == deck.questions.length+1) {
-      Alert.alert(
-        "Quiz Over",
-        "You got " +
-          this.state.numberCorrect +
-          " correct and " +
-          this.state.numberIncorrect +
-          " incorrect",
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              this.props.navigation.navigate("DeckListScreen");
-            }
-          }
-        ]
-      );
-      this.setState({ questionNumber: questionNumber+1 })
-    }
-    if (questionNumber >= deck.questions.length+1){ 
-      return null;
-    }
-
     return (
       <View style={{ flex: 1, flexDirection: "column" }}>
         <View
@@ -114,7 +91,8 @@ class QuizScreen extends Component {
           style={{
             flex: 2,
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            paddingBottom: 50
           }}
         >
           <Button
@@ -143,14 +121,44 @@ class QuizScreen extends Component {
   onPressCorrect = () => {
     let numberCorrect = this.state.numberCorrect + 1;
     let questionNumber = this.state.questionNumber + 1;
-    this.setState({ numberCorrect, questionNumber, questionMode: true });
+    if (questionNumber < this.state.deck.questions.length + 1) {
+      this.setState({ numberCorrect, questionNumber, questionMode: true });
+    } else {
+      this.showAlert(questionNumber, this.state.deck, numberCorrect, this.state.numberIncorrect);
+    }
   };
 
   onPressIncorrect = () => {
     let numberIncorrect = this.state.numberIncorrect + 1;
     let questionNumber = this.state.questionNumber + 1;
-    this.setState({ numberIncorrect, questionNumber, questionMode: true });
+    if (questionNumber < this.state.deck.questions.length + 1) {
+      this.setState({ numberIncorrect, questionNumber, questionMode: true });
+    } else {
+      this.showAlert(questionNumber, this.state.deck, this.state.numberCorrect, numberIncorrect);
+    }
   };
+
+  showAlert(questionNumber, deck, numberCorrect, numberIncorrect) {
+    if (questionNumber == deck.questions.length + 1) {
+      Alert.alert(
+        "Quiz Over",
+        "You got " +
+          numberCorrect +
+          " correct and " +
+          numberIncorrect +
+          " incorrect.",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              this.props.navigation.navigate("DeckListScreen");
+            }
+          }
+        ]
+      );
+      return null;
+    }
+  }
 }
 
 const mapStateToProps = state => {

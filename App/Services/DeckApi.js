@@ -4,7 +4,7 @@ import Creators from "../Redux/AppRedux";
 const KEY = "DECK";
 
 export function getDecks() {
-  //  AsyncStorage.setItem(KEY, '');
+  // AsyncStorage.setItem(KEY, '');
   return (dispatch, getState) => {
     AsyncStorage.getItem(KEY)
       .then(response => {
